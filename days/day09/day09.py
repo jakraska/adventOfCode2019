@@ -72,11 +72,6 @@ class action:
 
         return self.get_input_length() + current_index
 
-    def next_rel_base(self, codes:List[int], current_index:int):
-        if self.opt_code == 9:
-            return self.get_param(0, codes) + current_index
-        return current_index
-
 
 def next_action(codes:List[int], start:int, rel_base:int) -> action:
     opt_code = int(str(codes[start])[-2:])

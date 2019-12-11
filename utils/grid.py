@@ -1,4 +1,5 @@
 import re
+import math
 
 class grid:
     data = []
@@ -44,6 +45,10 @@ class point2d:
         self.x = x
         self.y = y
 
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
+
+
     @classmethod
     def fromString(cls, str):
         match = re.search('(\d+), (\d+)', str)
@@ -79,4 +84,5 @@ class line2d:
 
     def length(self):
         return self.start.manhattanDistance(self.end.x, self.end.y)
+
 
