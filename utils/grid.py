@@ -48,6 +48,8 @@ class point2d:
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y
 
+    def __repr__(self):
+        return "(%s,%s)" % (self.x, self.y)
 
     @classmethod
     def fromString(cls, str):
