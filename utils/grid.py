@@ -1,5 +1,58 @@
 import re
 import math
+from typing import List
+
+
+class HashGridData:
+    pos = None
+    value = None
+
+    def __init__(self, x:int, y:int, value):
+        self.pos = point2d(x, y)
+        self.value = value
+
+
+class HashGrid:
+    default_value = None
+    data = {}
+
+    def __init__(self, default_value, initial_data:List[HashGridData] = None):
+        self.default_value = default_value
+        self.data = {}
+
+        if initial_data is not None:
+            for d in initial_data:
+                self.data[d.pos.__repr__()] = d
+
+    def set_value(self, x:int, y:int, val):
+        d = HashGridData(x, y, val)
+        self.data[d.pos.__repr__()] = d
+
+    def get_value(self, x, y):
+        d = self.data.get(point2d(x,y).__repr__())
+        return self.default_value if d is None else d.value
+
+    def remove_value(self, x, y):
+        self.data.pop(point2d(x,y).__repr__())
+
+    def as_string(self, invert:bool = False, output_map=None, output_map_default=" "):
+        # todo cache this on set/remove
+        minx = min(self.data.values(), key=lambda d: d.pos.x).pos.x
+        maxx = max(self.data.values(), key=lambda d: d.pos.x).pos.x
+        miny = min(self.data.values(), key=lambda d: d.pos.y).pos.y
+        maxy = max(self.data.values(), key=lambda d: d.pos.y).pos.y
+
+        y_start, y_end, y_step = (miny, maxy + 1, 1) if invert else (maxy, miny - 1, -1)
+        output = ""
+        for y in range(y_start, y_end, y_step):
+            for x in range(minx, maxx + 1):
+                v = str(self.get_value(x, y))
+                if output_map is not None:
+                    v = output_map.get(v, output_map_default)
+                output += v
+            output += "\n"
+        return output
+
 
 class grid:
     data = []
