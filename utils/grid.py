@@ -35,6 +35,9 @@ class HashGrid:
     def remove_value(self, x, y):
         self.data.pop(point2d(x,y).__repr__())
 
+    def get_data(self):
+        return list(self.data.values())
+
     def as_string(self, invert:bool = False, output_map=None, output_map_default=" "):
         # todo cache this on set/remove
         minx = min(self.data.values(), key=lambda d: d.pos.x).pos.x
@@ -112,6 +115,27 @@ class point2d:
 
     def manhattanDistance(self, x, y):
         return abs(self.x - x) + abs(self.y - y)
+
+class point3d:
+    def __init__(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
+
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y and self.z == other.z
+
+    def __repr__(self):
+        return "(%s,%s,%s)" % (self.x, self.y, self.z)
+
+    @classmethod
+    def fromString(cls, str):
+        match = re.search('<x=(-?\d+), y=(-?\d+), z=(-?\d+)>', str)
+
+        return cls(int(match.group(1)), int(match.group(2)), int(match.group(3)))
+
+    def manhattanDistance(self, x, y, z):
+        return abs(self.x - x) + abs(self.y - y) + abs(self.z - z)
 
 class line2d:
     def __init__(self, start:point2d, end:point2d):

@@ -113,3 +113,8 @@ class intcode_computer:
             params.append(self.program[start + i + 1])
 
         return action(opt_code, param_modes, params, rel_base)
+
+    def pop_output(self):
+        o = self.output.copy()
+        self.output.clear()
+        return o
