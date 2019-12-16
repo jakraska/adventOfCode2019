@@ -11,6 +11,9 @@ class HashGridData:
         self.pos = point2d(x, y)
         self.value = value
 
+    def __repr__(self):
+        return "%s: %s" % (self.pos, self.value)
+
 
 class HashGrid:
     default_value = None
@@ -37,6 +40,9 @@ class HashGrid:
 
     def get_data(self):
         return list(self.data.values())
+
+    def find(self, val) -> List[HashGridData]:
+        return list(filter(lambda d: d.value == val, self.data.values()))
 
     def as_string(self, invert:bool = False, output_map=None, output_map_default=" "):
         # todo cache this on set/remove
